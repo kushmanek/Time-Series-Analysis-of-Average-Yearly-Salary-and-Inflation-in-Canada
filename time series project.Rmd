@@ -1,0 +1,92 @@
+---
+title: Time Series Analysis of average yearly salary of individual Within Canada and
+  inflation in canada
+author: "kush manek"
+date: '`r Sys.Date()`'
+output:
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(forecast)
+library(tseries)
+library(astsa)
+library(ggplot2)
+data <- read.csv("./data.csv");
+data$time <- as.Date(data$time)
+data <- data[data$yearly_salary > 0 & data$inflation_values > 0, ]
+ys <- data$yearly_salary;
+ir <- data$inflation_values;
+ir <- ts(ir, frequency = 12, start = c(2005, 12))
+ys<- ts(ys, frequency = 12, start = c(2005, 12))
+plot.ts(ir, main="Inflation Rate Time Series", ylab="Inflation rate", xlab= "Time");
+plot.ts(ys, main="Average Yearly Salary Time Series", ylab="Average Yearly salary", xlab= "Time");
+acf2(ys,50,main="Yearly Salary ACF and PACF");
+acf2(ir,50,main="Inflation Rate ACF and PACF");
+```
+
+***Transformations***
+
+To ensure stationarity, the logarithm of the yearly salary was computed:
+
+```{r}
+lys <- log(ys);
+plot.ts(lys, main="Log Average Yearly Salary Time Series", ylab="Log Average Yearly salary", xlab= "Time");
+acf2(lys,50,main="Log Yearly Salary ACF and PACF")
+dlys <- diff(lys,12);
+plot.ts(dlys, main="Differenced Log Average Yearly Salary Time Series", ylab="Differenced Log Average Yearly salary", xlab= "Time");
+acf2(dlys,50,main="Differenced Log Yearly Salary ACF and PACF")
+lir <- log(ir);
+plot.ts(lir, main="Log Inflation Rate Time Series", ylab="Log Inflation rate", xlab= "Time");
+acf2(lir,50,main="Log Inflation Rate ACF and PACF")
+dlir <- diff(lir,12);
+plot.ts(dlir, main="Differenced Log Inflation Rate Time Series", ylab="DifferencedLog Inflation rate", xlab= "Time");
+acf2(dlir,50,main="Differenced Log Inflation Rate ACF and PACF")
+```
+
+***Correlation***
+
+```{r}
+correlation <- cor(ys, ir, use = "complete.obs", method = "pearson")
+print(paste("Pearson Correlation: ", correlation))
+ccf(dlys, dlir, main = "CCF: Differenced Log Yearly Salary vs Inflation Rate")
+```
+
+***Forecasting***
+
+Inflation rate data was similarly assessed for stationarity. Differencing was applied to stabilize the variance.
+
+Model Fitting
+
+ARIMA Models:
+
+Using ACF and PACF plots, ARIMA models were fitted to both time series:
+
+Inflation Rate Model:
+
+```{r}
+ys_optimum  <- sarima(ys,1,1,0,3,1,0,12);
+ys_optimum$ttable;
+```
+
+```{r}
+ir_optimum  <- sarima(ir,2,1,3,2,1,0,12);
+ir_optimum$ttable
+```
+Forecast for the next 12 observations (months) were generated for both variables:
+
+Inflation Rate:
+
+```{r}
+sarima.for(ys,1,1,0,3,1,0,12, n.ahead = 12)
+```
+
+```{r}
+sarima.for(ir,2,1,3,2,1,0,12,n.ahead=12);
+```
+
