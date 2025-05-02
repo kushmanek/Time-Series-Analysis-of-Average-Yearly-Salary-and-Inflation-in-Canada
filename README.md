@@ -40,3 +40,5 @@ Click Knit to generate the report as a Word document.
 Plots showing trends, seasonality, and transformations.
 
 Insights into salary and inflation trends in Canada over time.
+
+**Presentation link** - https://prezi.com/view/3tS73zf6TuCRASZ0ROZu/
