@@ -1,4 +1,4 @@
-#Time Series Analysis of Average Yearly Salary and Inflation in Canada
+******Time Series Analysis of Average Yearly Salary and Inflation in Canada******
 
 **Overview**
 This project performs a time series analysis of average yearly salaries and inflation rates in Canada using historical data. The analysis explores patterns, stationarity, and relationships between these two economic indicators using transformation techniques and visualizations.
