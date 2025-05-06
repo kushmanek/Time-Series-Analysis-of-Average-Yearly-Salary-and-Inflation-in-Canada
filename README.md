@@ -9,8 +9,9 @@ Kush Manek
 **Files**
 final project report.Rmd – R Markdown file containing the full analysis, plots, and methodology.
 
-data.csv – The dataset used, containing monthly data on average yearly salary and inflation values.
+**link to dataset** -> https://tradingeconomics.com/canada/average-hourly-earnings
 
+dataset that was used for the analysis was of last 20 years. (From Jan 1, 2004 to Nov 1, 2024)
 **Key Techniques**
 Time Series Conversion using ts()
 
