@@ -12,6 +12,7 @@ final project report.Rmd – R Markdown file containing the full analysis, plots
 **Datasets used**
 
 inflation rate in canada.csv -> dataset of inflation rate in canada.
+
 average hourly earnings in canada -> average amount of dollars earned by a canadian in 1 hour.
 
 link to dataset -> https://tradingeconomics.com/canada/average-hourly-earnings
